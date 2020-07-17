@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Alert, TextInput, } from 'react-native';
-import { useCallback, useState } from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, Alert, TextInput, Vibration, } from 'react-native';
+import { useCallback, useState, Component, } from 'react';
 import { hide } from 'expo/build/launch/SplashScreen';
 
 export default function App() {
@@ -221,4 +221,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const onPress = () =>{alert ('voce erou')}
+const onPress=() => Vibration.vibrate(50)
