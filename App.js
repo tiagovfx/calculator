@@ -13,6 +13,7 @@ export default function App() {
   const [display, setDisplay] = useState('')
   const [preview, setPreview] = useState('')
   const [operation, setOperation] = useState('')
+  var lastOperation;
 
   useEffect(() => {
 
@@ -20,7 +21,7 @@ export default function App() {
 
   function handleMultiplication() {
     const lastPreview = preview, lastDisplay = display;
-    setPreview(preview == '' ? display : parseInt(preview) * parseInt(display))
+    setPreview(preview == '' ? display : parseFloat(preview) * parseFloat(display))
     setDisplay('')
     console.log(operation)
     console.log('Display: ' + display);
@@ -28,7 +29,7 @@ export default function App() {
   }
   function handleSubtraction() {
 
-    setPreview(preview == '' ? display : parseInt(preview) - parseInt(display))
+    setPreview(preview == '' ? display : parseFloat(preview) - parseFloat(display))
     setDisplay('')
 
     console.log(operation)
@@ -37,7 +38,7 @@ export default function App() {
   }
   function handleDivision() {
 
-    setPreview(preview == '' ? display : parseInt(preview) / parseInt(display))
+    setPreview(preview == '' ? display : parseFloat(preview) / parseFloat(display))
     setDisplay('')
 
     console.log(operation)
@@ -46,14 +47,19 @@ export default function App() {
   }
   function handleSum() {
 
-    setPreview(preview == '' ? display : parseInt(preview) + parseInt(display))
+    setPreview(preview == '' ? display :(parseFloat(preview) + parseFloat(display)).toString())
     setDisplay('')
 
     console.log(operation)
     console.log('Display: ' + display);
     console.log('Preview: ' + preview);
   }
+  function handlePercentage() {
+    setDisplay(((parseFloat(preview) * parseFloat(display)) / 100).toString())
 
+
+
+  }
 
   return (
     <View style={styles.container}>
@@ -90,7 +96,7 @@ export default function App() {
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={onPress}>
+        <TouchableHighlight onPress={() => { handlePercentage() }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>%</Text>
           </View>
@@ -110,19 +116,19 @@ export default function App() {
       </View>
 
       <View style={styles.packs}>
-        <TouchableHighlight onPress={() => { writeOnDisplay(7) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 7) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>7</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(8) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 8) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>8</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(9) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 9) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>9</Text>
           </View>
@@ -138,25 +144,25 @@ export default function App() {
 
       <View style={styles.packs}>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(4) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 4) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>4</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(5) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 5) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>5</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(6) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 6) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>6</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { setOperation('+'), handleSum() }}>
+        <TouchableHighlight onPress={() => { lastOperation = '+', setOperation('+'), handleSum() }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>+</Text>
           </View>
@@ -166,19 +172,19 @@ export default function App() {
 
       <View style={styles.packs}>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(1) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 1) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>1</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(2) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 2) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>2</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(3) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 3) }}>
           <View style={styles.button} >
             <Text style={styles.fontsize}>3</Text>
           </View>
@@ -193,15 +199,15 @@ export default function App() {
       </View>
       <View style={styles.packs}>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(0) }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + 0) }}>
           <View style={styles.button0} >
             <Text style={styles.fontsize}>0</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => { writeOnDisplay(',') }}>
+        <TouchableHighlight onPress={() => { setDisplay(display + '.') }}>
           <View style={styles.button} >
-            <Text style={styles.fontsize}>,</Text>
+            <Text style={styles.fontsize}>.</Text>
           </View>
         </TouchableHighlight>
 
@@ -215,14 +221,14 @@ export default function App() {
 
     </View>
   );
-  function writeOnDisplay(tiago) {
-    
-    setDisplay(parseInt(display) + tiago)
-    console.log(tiago)
-  }
   function eraseEverything() {
 
     setDisplay('')
+    setOperation('')
+    setPreview('')
+  }
+  function eraseOperationPreview() {
+
     setOperation('')
     setPreview('')
   }
@@ -230,23 +236,23 @@ export default function App() {
 
     switch (operation) {
       case '+':
-        setDisplay(parseInt(preview) + parseInt(display))
+        setDisplay((parseFloat(preview) + parseFloat(display)).toString())
         break
       case '-':
-        setDisplay(parseInt(preview) - parseInt(display))
+        setDisplay((parseFloat(preview) - parseFloat(display)).toString())
         break
       case '*':
-        setDisplay(parseInt(preview) * parseInt(display))
+        setDisplay((parseFloat(preview) * parseFloat(display)).toString())
         break
       case '/':
-        setDisplay(parseInt(preview) / parseInt(display))
+        setDisplay((parseFloat(preview) / parseFloat(display)).toString())
         break
       default:
         alert("Invalid Operation")
         break
     }
-    setOperation('')
-    setPreview('')
+    eraseOperationPreview()
+
   }
 }
 const onPress = () => Vibration.vibrate(50)
